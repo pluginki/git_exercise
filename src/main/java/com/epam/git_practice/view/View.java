@@ -5,7 +5,8 @@ public class View {
 
     public void showCardNumber(String paymentSystem, String cardType,
                                long cardNumber) {
-        System.out.printf(OUTPUT_PATTERN, paymentSystem, cardType, cardNumber);
+        System.out.printf(OUTPUT_PATTERN, paymentSystem.toUpperCase(),
+                          cardType.toLowerCase(), cardNumber);
     }
 
 }
