@@ -5,6 +5,7 @@ public enum Cards {
     MIR {
         private static final long CLASSIC_BIN = 2200_0000_0000_000L;
         private static final long PREMIUM_BIN = 2201_0000_0000_000L;
+        private static final long DEBIT_BIN = 2202_0000_0000_000L;
 
         @Override
         public long generateCardNumber(String cardType) {
@@ -15,6 +16,9 @@ public enum Cards {
                     break;
                 case "premium":
                     cardNumber = Cards.generatePartOfCardNumber(PREMIUM_BIN);
+                    break;
+                case "debit":
+                    cardNumber = Cards.generatePartOfCardNumber(DEBIT_BIN);
                     break;
                 default:
                     throw new CardTypeWasNotFoundException();
