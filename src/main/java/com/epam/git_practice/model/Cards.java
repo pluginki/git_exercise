@@ -1,31 +1,27 @@
 package com.epam.git_practice.model;
 
+import java.util.Random;
+
 public enum Cards {
 
     MIR {
-        private static final long CLASSIC_BIN = 2200_0000_0000_000L;
-        private static final long PREMIUM_BIN = 2201_0000_0000_000L;
-        private static final long DEBIT_BIN = 2202_0000_0000_000L;
+        private final int[] numberLengths = new int[]{16};
+        private final int[] mirBins = new int[]{2200, 2201, 2202, 2203, 2204};
 
         @Override
         public long generateCardNumber(String cardType) {
             long cardNumber;
-            switch (cardType.toLowerCase()) {
-                case "classic":
-                    cardNumber = Cards.generatePartOfCardNumber(CLASSIC_BIN);
-                    break;
-                case "premium":
-                    cardNumber = Cards.generatePartOfCardNumber(PREMIUM_BIN);
-                    break;
-                case "debit":
-                    cardNumber = Cards.generatePartOfCardNumber(DEBIT_BIN);
-                    break;
-                default:
-                    throw new CardTypeWasNotFoundException();
+            if ("classic".equalsIgnoreCase(cardType)
+                || "premium".equalsIgnoreCase(cardType)
+                || "debit".equalsIgnoreCase(cardType)) {
+                cardNumber = Cards.generatePartOfCardNumber(mirBins,
+                        numberLengths);
+            } else {
+                throw new CardTypeWasNotFoundException();
             }
             cardNumber = new ControlNumberGenerator()
-                        .addControlNumber(cardNumber);
-           return cardNumber;
+                             .addControlNumber(cardNumber);
+            return cardNumber;
         }
 
     };
@@ -40,8 +36,20 @@ public enum Cards {
         }
     }
 
-    private static long generatePartOfCardNumber(long bin) {
-        return bin + (long) (Math.random() * 1000_0000_0000L);
+    private static long generatePartOfCardNumber(int[] bin,
+                                                 int[] numberLengths) {
+        long numberLength = (long) Math.pow(10,
+                Cards.getRandomNumberLength(numberLengths) - (double) 5);
+        return getRandomBin(bin, numberLength)
+                + (long) (Math.random() * numberLength);
+    }
+
+    private static int getRandomNumberLength(int[] numberLengths) {
+        return numberLengths[new Random().nextInt(numberLengths.length)];
+    }
+
+    private static long getRandomBin(int[] bins, long numberLength) {
+        return bins[new Random().nextInt(bins.length)] * numberLength;
     }
 
 }

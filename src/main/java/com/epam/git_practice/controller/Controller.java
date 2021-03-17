@@ -11,9 +11,9 @@ public class Controller {
             try {
                 new View().showCardNumber(args[i], args[i + 1],
                         Cards.getCardByPaymentSystem(args[i])
-                             .generateCardNumber(args[i + 1]));
-            } catch (CardTypeWasNotFoundException e) {
-                System.err.println(e.getMessage());
+                                .generateCardNumber(args[i + 1]));
+            } catch (RuntimeException e) {
+                throw new CardTypeWasNotFoundException();
             }
         }
     }
