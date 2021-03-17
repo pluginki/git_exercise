@@ -2,11 +2,21 @@ package com.epam.git_practice.model;
 
 public enum Cards {
 
-    CARD {
-
+    MIR {
+        private static final long CLASSIC_BIN = 2200_0000_0000_000L;
         @Override
         public long generateCardNumber(String cardType) {
-            return 0;
+            long cardNumber;
+            switch (cardType.toLowerCase()) {
+                case "classic":
+                    cardNumber = Cards.generatePartOfCardNumber(CLASSIC_BIN);
+                    break;
+                default:
+                    throw new CardTypeWasNotFoundException();
+            }
+            cardNumber = new ControlNumberGenerator()
+                        .addControlNumber(cardNumber);
+           return cardNumber;
         }
 
     };
@@ -19,6 +29,10 @@ public enum Cards {
         } catch (IllegalArgumentException e) {
             throw new CardTypeWasNotFoundException();
         }
+    }
+
+    private static long generatePartOfCardNumber(long bin) {
+        return bin + (long) (Math.random() * 1000_0000_0000L);
     }
 
 }
