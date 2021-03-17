@@ -5,15 +5,18 @@ import java.util.Random;
 public enum Cards {
 
     MIR {
+        private static final String CLASSIC = "classic";
+        private static final String PREMIUM = "premium";
+        private static final String DEBIT = "debit";
         private final int[] numberLengths = new int[]{16};
         private final int[] mirBins = new int[]{2200, 2201, 2202, 2203, 2204};
 
         @Override
         public long generateCardNumber(String cardType) {
             long cardNumber;
-            if ("classic".equalsIgnoreCase(cardType)
-                || "premium".equalsIgnoreCase(cardType)
-                || "debit".equalsIgnoreCase(cardType)) {
+            if (CLASSIC.equalsIgnoreCase(cardType)
+                || PREMIUM.equalsIgnoreCase(cardType)
+                || DEBIT.equalsIgnoreCase(cardType)) {
                 cardNumber = Cards.generatePartOfCardNumber(mirBins,
                         numberLengths);
             } else {
