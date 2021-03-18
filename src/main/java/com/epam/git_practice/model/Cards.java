@@ -61,6 +61,7 @@ public enum Cards {
 
     MASTERCARD {
         private static final String MASTERCARD = "mastercard";
+        private static final String ELECTRONIC = "electronic";
         private final int[] numberLengths = new int[]{16};
         private final int[] mastercardBins
                 = new int[]{51, 52, 53, 54, 55, 2221, 2222, 2223, 2224};
@@ -68,7 +69,8 @@ public enum Cards {
         @Override
         public long generateCardNumber(String cardType) {
             long cardNumber;
-            if (MASTERCARD.equalsIgnoreCase(cardType)) {
+            if (MASTERCARD.equalsIgnoreCase(cardType)
+                    || ELECTRONIC.equalsIgnoreCase(cardType) ) {
                 cardNumber = Cards.generatePartOfCardNumber(mastercardBins,
                         numberLengths);
             } else {
