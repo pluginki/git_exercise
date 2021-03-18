@@ -6,14 +6,22 @@ import com.epam.git_practice.view.View;
 
 public class Controller {
     private static final String ELECTRONIC = "electronic";
+    private static final String MAESTRO = "maestro";
 
     public void startApplication(String[] args) {
         for (int i = 0; i < args.length; i += 2) {
             try {
-                if (Cards.MASTERCARD.name().equalsIgnoreCase(args[i])
-                        && !args[i + 1].equalsIgnoreCase(ELECTRONIC)) {
-                    getCardNumber(args[i], Cards.MASTERCARD.name());
-                    i--;
+                if ((Cards.MASTERCARD.name().equalsIgnoreCase(args[i]))) {
+                    if ((args.length - 1) == i) {
+                        getCardNumber(args[i], args[i]);
+                    } else if (args[i + 1].equalsIgnoreCase(ELECTRONIC)) {
+                        getCardNumber(args[i], args[i + 1]);
+                    } else {
+                        getCardNumber(args[i], args[i]);
+                        i--;
+                    }
+                } else if (MAESTRO.equalsIgnoreCase(args[i])) {
+                    getCardNumber(Cards.MASTERCARD.name(), args[i]);
                 } else {
                     getCardNumber(args[i], args[i + 1]);
                 }

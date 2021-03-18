@@ -6,3 +6,4 @@ visa_classic.v1.0 Visa classic implemented
 visa_gold.v1.0 Visa gold implemented
 mastercard_mastercard.v1.0 Mastercard implemented
 mastercard_electronic.v1.0 Electronic implemented
+mastercard_maestro.v1.0 Maestro implemented
