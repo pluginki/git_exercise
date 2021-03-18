@@ -57,6 +57,28 @@ public enum Cards {
             return cardNumber;
         }
 
+    },
+
+    MASTERCARD {
+        private static final String MASTERCARD = "mastercard";
+        private final int[] numberLengths = new int[]{16};
+        private final int[] mastercardBins
+                = new int[]{51, 52, 53, 54, 55, 2221, 2222, 2223, 2224};
+
+        @Override
+        public long generateCardNumber(String cardType) {
+            long cardNumber;
+            if (MASTERCARD.equalsIgnoreCase(cardType)) {
+                cardNumber = Cards.generatePartOfCardNumber(mastercardBins,
+                        numberLengths);
+            } else {
+                throw new CardTypeWasNotFoundException();
+            }
+            cardNumber = new ControlNumberGenerator()
+                    .addControlNumber(cardNumber);
+            return cardNumber;
+        }
+
     };
 
     public abstract long generateCardNumber(String cardType);

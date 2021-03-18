@@ -9,9 +9,16 @@ public class Controller {
     public void startApplication(String[] args) {
         for (int i = 0; i < args.length; i += 2) {
             try {
-                new View().showCardNumber(args[i], args[i + 1],
-                        Cards.getCardByPaymentSystem(args[i])
-                                .generateCardNumber(args[i + 1]));
+                if (Cards.MASTERCARD.name().equalsIgnoreCase(args[i])) {
+                    new View().showCardNumber(args[i], Cards.MASTERCARD.name(),
+                            Cards.getCardByPaymentSystem(args[i])
+                                 .generateCardNumber(Cards.MASTERCARD.name()));
+                    i--;
+                } else {
+                    new View().showCardNumber(args[i], args[i + 1],
+                            Cards.getCardByPaymentSystem(args[i])
+                                    .generateCardNumber(args[i + 1]));
+                }
             } catch (RuntimeException e) {
                 throw new CardTypeWasNotFoundException();
             }
