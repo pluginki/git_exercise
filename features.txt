@@ -4,3 +4,4 @@ mir_debit.v1.0 Mir debit implemented
 visa_electron.v1.0 Visa electron implemented
 visa_classic.v1.0 Visa classic implemented
 visa_gold.v1.0 Visa gold implemented
+mastercard_mastercard.v1.0 Mastercard implemented
