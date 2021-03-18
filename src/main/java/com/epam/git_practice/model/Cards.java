@@ -31,14 +31,15 @@ public enum Cards {
 
     VISA {
         private static final String ELECTRON = "electron";
-        private final int[] numberLengths = new int[]{13, 16};
-        private final int[] mirBins = new int[]{4};
+        private final int[] numberLengths = new int[]{16};
+        private final int[] electronBins
+                            = new int[]{4026, 417500, 4508, 4844, 4913, 4917};
 
         @Override
         public long generateCardNumber(String cardType) {
             long cardNumber;
             if (ELECTRON.equalsIgnoreCase(cardType)) {
-                cardNumber = Cards.generatePartOfCardNumber(mirBins,
+                cardNumber = Cards.generatePartOfCardNumber(electronBins,
                         numberLengths);
             } else {
                 throw new CardTypeWasNotFoundException();
