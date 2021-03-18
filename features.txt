@@ -1,0 +1,3 @@
+mir_classic.v1.0 Mir classic implemented
+mir_premium.v1.0 Mir premium implemented
+mir_debit.v1.0 Mir debit implemented
