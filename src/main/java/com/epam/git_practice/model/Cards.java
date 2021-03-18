@@ -15,15 +15,45 @@ public enum Cards {
         public long generateCardNumber(String cardType) {
             long cardNumber;
             if (CLASSIC.equalsIgnoreCase(cardType)
-                || PREMIUM.equalsIgnoreCase(cardType)
-                || DEBIT.equalsIgnoreCase(cardType)) {
+                    || PREMIUM.equalsIgnoreCase(cardType)
+                    || DEBIT.equalsIgnoreCase(cardType)) {
                 cardNumber = Cards.generatePartOfCardNumber(mirBins,
                         numberLengths);
             } else {
                 throw new CardTypeWasNotFoundException();
             }
             cardNumber = new ControlNumberGenerator()
-                             .addControlNumber(cardNumber);
+                    .addControlNumber(cardNumber);
+            return cardNumber;
+        }
+
+    },
+
+    VISA {
+        private static final String ELECTRON = "electron";
+        private static final String CLASSIC = "classic";
+        private static final String GOLD = "gold";
+        private final int[] electronNumberLengths = new int[]{16};
+        private final int[] visaNumberLengths = new int[]{16, 13};
+        private final int[] electronBins
+                = new int[]{4026, 417500, 4508, 4844, 4913, 4917};
+        private final int[] visaBins = new int[]{4};
+
+        @Override
+        public long generateCardNumber(String cardType) {
+            long cardNumber;
+            if (ELECTRON.equalsIgnoreCase(cardType)) {
+                cardNumber = Cards.generatePartOfCardNumber(electronBins,
+                        electronNumberLengths);
+            } else if (CLASSIC.equalsIgnoreCase(cardType)
+                    || GOLD.equalsIgnoreCase(cardType)) {
+                cardNumber = Cards.generatePartOfCardNumber(visaBins,
+                        visaNumberLengths);
+            } else {
+                throw new CardTypeWasNotFoundException();
+            }
+            cardNumber = new ControlNumberGenerator()
+                    .addControlNumber(cardNumber);
             return cardNumber;
         }
 
@@ -39,20 +69,21 @@ public enum Cards {
         }
     }
 
-    private static long generatePartOfCardNumber(int[] bin,
+    private static long generatePartOfCardNumber(int[] bins,
                                                  int[] numberLengths) {
+        int bin = (int) getRandomBin(bins);
         long numberLength = (long) Math.pow(10,
-                Cards.getRandomNumberLength(numberLengths) - (double) 5);
-        return getRandomBin(bin, numberLength)
-                + (long) (Math.random() * numberLength);
+                Cards.getRandomNumberLength(numberLengths)
+                        - (double) String.valueOf(bin).length() - 1);
+        return (bin * numberLength) + (long) (Math.random() * numberLength);
     }
 
     private static int getRandomNumberLength(int[] numberLengths) {
         return numberLengths[new Random().nextInt(numberLengths.length)];
     }
 
-    private static long getRandomBin(int[] bins, long numberLength) {
-        return bins[new Random().nextInt(bins.length)] * numberLength;
+    private static long getRandomBin(int[] bins) {
+        return bins[new Random().nextInt(bins.length)];
     }
 
 }
