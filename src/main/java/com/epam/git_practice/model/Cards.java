@@ -32,6 +32,7 @@ public enum Cards {
     VISA {
         private static final String ELECTRON = "electron";
         private static final String CLASSIC = "classic";
+        private static final String GOLD = "gold";
         private final int[] electronNumberLengths = new int[]{16};
         private final int[] visaNumberLengths = new int[]{16, 13};
         private final int[] electronBins
@@ -44,7 +45,8 @@ public enum Cards {
             if (ELECTRON.equalsIgnoreCase(cardType)) {
                 cardNumber = Cards.generatePartOfCardNumber(electronBins,
                         electronNumberLengths);
-            } else if (CLASSIC.equalsIgnoreCase(cardType)) {
+            } else if (CLASSIC.equalsIgnoreCase(cardType)
+                    || GOLD.equalsIgnoreCase(cardType)) {
                 cardNumber = Cards.generatePartOfCardNumber(visaBins,
                         visaNumberLengths);
             } else {
