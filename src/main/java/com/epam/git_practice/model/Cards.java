@@ -27,6 +27,27 @@ public enum Cards {
             return cardNumber;
         }
 
+    },
+
+    VISA {
+        private static final String ELECTRON = "electron";
+        private final int[] numberLengths = new int[]{13, 16};
+        private final int[] mirBins = new int[]{4};
+
+        @Override
+        public long generateCardNumber(String cardType) {
+            long cardNumber;
+            if (ELECTRON.equalsIgnoreCase(cardType)) {
+                cardNumber = Cards.generatePartOfCardNumber(mirBins,
+                        numberLengths);
+            } else {
+                throw new CardTypeWasNotFoundException();
+            }
+            cardNumber = new ControlNumberGenerator()
+                    .addControlNumber(cardNumber);
+            return cardNumber;
+        }
+
     };
 
     public abstract long generateCardNumber(String cardType);
@@ -39,20 +60,21 @@ public enum Cards {
         }
     }
 
-    private static long generatePartOfCardNumber(int[] bin,
+    private static long generatePartOfCardNumber(int[] bins,
                                                  int[] numberLengths) {
+        int bin = (int) getRandomBin(bins);
         long numberLength = (long) Math.pow(10,
-                Cards.getRandomNumberLength(numberLengths) - (double) 5);
-        return getRandomBin(bin, numberLength)
-                + (long) (Math.random() * numberLength);
+                    Cards.getRandomNumberLength(numberLengths)
+                        - (double) String.valueOf(bin).length() - 1);
+        return (bin * numberLength) + (long) (Math.random() * numberLength);
     }
 
     private static int getRandomNumberLength(int[] numberLengths) {
         return numberLengths[new Random().nextInt(numberLengths.length)];
     }
 
-    private static long getRandomBin(int[] bins, long numberLength) {
-        return bins[new Random().nextInt(bins.length)] * numberLength;
+    private static long getRandomBin(int[] bins) {
+        return bins[new Random().nextInt(bins.length)];
     }
 
 }
